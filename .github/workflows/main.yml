@@ -18,11 +18,11 @@ jobs:
       run: |
         abc_modified=false
         one23_modified=false
-        for file in "${github.event.head_commit.modified}"; do
-          if [[ $file == abc/** ]]; then
+        for file in "$(cat $GITHUB_EVENT_PATH | jq -r '.head_commit.modified[]')"; do
+          if [[ $file == abc/* ]]; then
             abc_modified=true
           fi
-          if [[ $file == 123/** ]]; then
+          if [[ $file == 123/* ]]; then
             one23_modified=true
           fi
         done
@@ -39,12 +39,12 @@ jobs:
       if: steps.changes.outputs.folder == 'abc'
       run: |
         echo "Modified files:"
-        echo "${github.event.head_commit.modified}"
+        cat $GITHUB_EVENT_PATH | jq -r '.head_commit.modified[]'
         ls abc
 
     - name: Run if changes in 123 folder
       if: steps.changes.outputs.folder == '123'
       run: |
         echo "Modified files:"
-        echo "${github.event.head_commit.modified}"
+        cat $GITHUB_EVENT_PATH | jq -r '.head_commit.modified[]'
         ls 123
