@@ -19,10 +19,10 @@ jobs:
         abc_modified=false
         one23_modified=false
         for file in "$(cat $GITHUB_EVENT_PATH | jq -r '.head_commit.modified[]')"; do
-          if [[ $file == abc/* ]]; then
+          if [[ $file == abc/ ]]; then
             abc_modified=true
           fi
-          if [[ $file == 123/* ]]; then
+          if [[ $file == 123/ ]]; then
             one23_modified=true
           fi
         done
