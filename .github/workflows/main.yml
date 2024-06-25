@@ -3,39 +3,22 @@ name: Folder-specific Workflows
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
-  folder_abc:
-    name: ABC Folder Workflow
+  debug:
+    name: Debug Workflow
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.head_commit.modified, 'abc/') }}
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v2
 
-    - name: Debug Modified Files
-      run: |
-        echo "Modified files:"
-        echo "${{ github.event.head_commit.modified }}"
+      - name: Debug Event Payload
+        run: |
+          echo "Event payload:"
+          echo "${{ toJson(github.event) }}"
 
-    - name: List files in abc directory
-      run: |
-        ls abc
-
-  one:
-    name: 123 Folder Workflow
-    runs-on: ubuntu-latest
-    if: ${{ contains(github.event.head_commit.modified, '123/') }}
-    steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
-
-    - name: Debug Modified Files
-      run: |
-        echo "Modified files:"
-        echo "${{ github.event.head_commit.modified }}"
-
-    - name: List files in 123 directory
-      run: |
-        ls 123
+      - name: Debug Modified Files
+        run: |
+          echo "Modified files:"
+          echo "${{ github.event.head_commit.modified }}"
