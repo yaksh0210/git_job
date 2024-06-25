@@ -6,13 +6,13 @@ on:
     - main
 
 jobs:
-  abc:
+  folder_abc:
     name: ABC Folder Workflow
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.head_commit.modified, 'abc/*') }}
+    if: ${{ contains(github.event.head_commit.modified, 'abc/') }}
     steps:
     - name: Check out repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Debug Modified Files
       run: |
@@ -26,10 +26,10 @@ jobs:
   one:
     name: 123 Folder Workflow
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.head_commit.modified, '123/*') }}
+    if: ${{ contains(github.event.head_commit.modified, '123/') }}
     steps:
     - name: Check out repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Debug Modified Files
       run: |
