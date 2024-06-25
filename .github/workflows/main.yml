@@ -3,39 +3,60 @@ name: Folder-specific Workflows
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   folder_abc:
     name: ABC Folder Workflow
     runs-on: ubuntu-latest
-    if: ${{ github.event.commits | length > 0 && github.event.commits[0].modified | contains('abc/**') }}
+    if: changedFiles('abc/**')
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-    - name: Debug Modified Files
-      run: |
-        echo "Modified files:"
-        echo "${{ github.event.commits[0].modified }}"
+      - name: Debug Modified Files
+        run: |
+          echo "Modified files:"
+          echo "${{ github.event.head_commit.modified }}"
 
-    - name: List files in abc directory
-      run: |
-        ls abc
+      - name: List files in abc directory
+        run: |
+          ls abc
 
   one:
     name: 123 Folder Workflow
     runs-on: ubuntu-latest
-    if: ${{ github.event.commits | length > 0 && github.event.commits[0].modified | contains('123/**') }}
+    if: changedFiles('123/**')
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-    - name: Debug Modified Files
-      run: |
-        echo "Modified files:"
-        echo "${{ github.event.commits[0].modified }}"
+      - name: Debug Modified Files
+        run: |
+          echo "Modified files:"
+          echo "${{ github.event.head_commit.modified }}"
 
-    - name: List files in 123 directory
-      run: |
-        ls 123
+      - name: List files in 123 directory
+        run: |
+          ls 123
+
+functions:
+  changedFiles:
+    runs-on: github.actions
+    outputs:
+      result: ${{ steps.changes.outputs.result }}
+    steps:
+      - name: Check for changes
+        id: changes
+        run: |
+          files=()
+          for file in "${{ github.event.head_commit.modified }}"; do
+            if [[ $file == $1 ]]; then
+              files+=("$file")
+            fi
+          done
+          if [ ${#files[@]} -gt 0 ]; then
+            echo "::set-output name=result::true"
+          else
+            echo "::set-output name=result::false"
+          fi
