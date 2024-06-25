@@ -33,6 +33,7 @@ jobs:
         else
           echo "::set-output name=folder::none"
         fi
+      shell: bash
 
     - name: Run if changes in abc folder
       if: steps.changes.outputs.folder == 'abc'
