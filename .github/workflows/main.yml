@@ -6,7 +6,7 @@ on:
     - main
 
 jobs:
-  folder_abc:
+  abc:
     name: ABC Folder Workflow
     runs-on: ubuntu-latest
     if: ${{ contains(github.event.head_commit.modified, 'abc/*') }}
@@ -23,7 +23,7 @@ jobs:
       run: |
         ls abc
 
-  folder_123:
+  one:
     name: 123 Folder Workflow
     runs-on: ubuntu-latest
     if: ${{ contains(github.event.head_commit.modified, '123/*') }}
