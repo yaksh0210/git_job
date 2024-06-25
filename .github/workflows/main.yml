@@ -1,10 +1,3 @@
-name: Folder-specific Workflows
-
-on:
-  push:
-    branches:
-    - main
-
 jobs:
   folder-specific:
     name: Folder-specific Workflow
